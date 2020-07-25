@@ -6,6 +6,7 @@ import TeamListItem from "./TeamListItem";
 export default ({ teams, teamsMap }) => {
   const { pathname } = useLocation();
   const listRef = useRef();
+  debugger;
   const id = pathname.split("/")[2];
   return (
     <div>
@@ -17,7 +18,7 @@ export default ({ teams, teamsMap }) => {
             rowCount={teams.length}
             rowHeight={85}
             overscanRowCount={30}
-            scrollToIndex={teamsMap[id].index}
+            scrollToIndex={id && teamsMap[id].index}
             rowRenderer={({ index, isScrolling, key, style }) => {
               const team = teams[index];
               return (

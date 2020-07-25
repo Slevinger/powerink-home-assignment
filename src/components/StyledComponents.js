@@ -29,6 +29,7 @@ export const SearchBar = styled.input`
 export const StyledLink = styled(Link)`
   text-decoration: none;
   color: white;
+
   &:focus,
   &:hover,
   &:visited,
@@ -38,6 +39,32 @@ export const StyledLink = styled(Link)`
   }
   text {
     text-decoration: none;
+  }
+
+  :after {
+    content: "";
+    position: absolute;
+    top: 0%;
+    left: 60px;
+    width: 100%;
+    height: 100%;
+    opacity: 1;
+
+    background: rgba(255, 255, 255, 0.13);
+    background: linear-gradient(
+      to right,
+      rgba(255, 255, 255, 0.13) 0%,
+      rgba(255, 255, 255, 0.13) 77%,
+      rgba(255, 255, 255, 0.5) 92%,
+      rgba(255, 255, 255, 0.3) 100%
+    );
+  }
+  :hover:after {
+    opacity: 1;
+    left: 130%;
+    transition-property: left, top, opacity;
+    transition-duration: 0.3s, 0.3s, 0.05s;
+    transition-timing-function: ease;
   }
 `;
 
@@ -51,6 +78,7 @@ export const Team = styled.div`
   height: 84px;
   padding: 5px;
   flex: 1;
+  cursor: pointer;
 `;
 
 export const Logo = styled.div`

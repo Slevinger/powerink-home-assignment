@@ -32,6 +32,7 @@ export default () => {
   const [searchTerm, setSearchTerm] = useQueryState("", "search");
 
   const teamsMap = useMemo(() => {
+    debugger;
     return teams.reduce(
       (acc, team, index) => ({ ...acc, [team.TeamId]: { ...team, index } }),
       {}

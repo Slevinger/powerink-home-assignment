@@ -13,11 +13,9 @@ export const getSoccerTeams = async () => {
 };
 
 export const getTeamPlayers = async teamId => {
-  debugger;
   const { data } = await instance.get(
     `/scores/json/PlayersByTeam/${teamId}?key=${key}`
   );
-  debugger;
 
   return data;
 };

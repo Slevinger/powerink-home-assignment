@@ -1,0 +1,25 @@
+{
+  "files": {
+    "main.css": "/powerlink-home-assignment/static/css/main.3d479335.chunk.css",
+    "main.js": "/powerlink-home-assignment/static/js/main.a27b3a36.chunk.js",
+    "main.js.map": "/powerlink-home-assignment/static/js/main.a27b3a36.chunk.js.map",
+    "runtime-main.js": "/powerlink-home-assignment/static/js/runtime-main.a08254e7.js",
+    "runtime-main.js.map": "/powerlink-home-assignment/static/js/runtime-main.a08254e7.js.map",
+    "static/css/2.71916e70.chunk.css": "/powerlink-home-assignment/static/css/2.71916e70.chunk.css",
+    "static/js/2.17f14d46.chunk.js": "/powerlink-home-assignment/static/js/2.17f14d46.chunk.js",
+    "static/js/2.17f14d46.chunk.js.map": "/powerlink-home-assignment/static/js/2.17f14d46.chunk.js.map",
+    "index.html": "/powerlink-home-assignment/index.html",
+    "precache-manifest.50dbc329c4f7e7118b85cbf8f804d55c.js": "/powerlink-home-assignment/precache-manifest.50dbc329c4f7e7118b85cbf8f804d55c.js",
+    "service-worker.js": "/powerlink-home-assignment/service-worker.js",
+    "static/css/2.71916e70.chunk.css.map": "/powerlink-home-assignment/static/css/2.71916e70.chunk.css.map",
+    "static/css/main.3d479335.chunk.css.map": "/powerlink-home-assignment/static/css/main.3d479335.chunk.css.map",
+    "static/js/2.17f14d46.chunk.js.LICENSE.txt": "/powerlink-home-assignment/static/js/2.17f14d46.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.a08254e7.js",
+    "static/css/2.71916e70.chunk.css",
+    "static/js/2.17f14d46.chunk.js",
+    "static/css/main.3d479335.chunk.css",
+    "static/js/main.a27b3a36.chunk.js"
+  ]
+}

@@ -1,7 +1,7 @@
 import React from "react";
 import { Route, useParams, Redirect } from "react-router-dom";
-import TeamsSideBar from "./TeamsSideBar";
-import TeamPreview from "./TeamPreview";
+import TeamsSideBar from "./teams/TeamsSideBar";
+import TeamPreview from "./teams/TeamPreview";
 import { StyledBody } from "./StyledComponents";
 import SplitPane from "react-split-pane";
 import useSoccer from "../hooks/useSoccer";

@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import React from "react";
 import styled from "styled-components";
 import { useLocation } from "react-router-dom";
-import { StyledNote } from "./StyledComponents";
+import { StyledNote } from "../StyledComponents";
 
 const Team = styled.div`
   background-color: ${({ selected }) => (selected ? "white" : "black")};

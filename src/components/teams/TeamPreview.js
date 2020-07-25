@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import { Spacer } from "./StyledComponents";
-import { getTeamPlayers } from "../api/footballApi";
-import TeamDetails from "./teams/TeamDetails";
+import { Spacer } from "../StyledComponents";
+import { getTeamPlayers } from "../../api/footballApi";
+import TeamDetails from "./TeamDetails";
 
 const Player = ({ FirstName, LastName, Jersey, PhotoUrl }) => (
   <div className="player">

@@ -1,6 +1,6 @@
 ## https://enigmatic-plains-32727.herokuapp.com/teams
 
-Deoloyed App...
+Deployed App...
 
 To run app locally
 

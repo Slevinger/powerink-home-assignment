@@ -42,12 +42,12 @@ export const StyledLink = styled(Link)`
 `;
 
 export const Team = styled.div`
-  background-color: ${({ selected }) => (selected ? "white" : "black")};
+  background-color: ${({ selected }) => (selected ? "lightcyan" : "black")};
   padding: 5px;
   box-shadow: 10px 10px 10px 10px;
   flex-direction: row;
   display: flex;
-  color: white;
+  color: ${({ selected }) => (selected ? "black" : "white")};
   height: 84px;
   padding: 5px;
   flex: 1;

@@ -3,19 +3,19 @@ import { Route, useParams, Redirect } from "react-router-dom";
 import TeamsSideBar from "./teams/TeamsSideBar";
 import TeamPreview from "./teams/TeamPreview";
 import { StyledBody } from "./StyledComponents";
+import Loading from "./Loading";
 import SplitPane from "react-split-pane";
 import useSoccer from "../hooks/useSoccer";
-import { CommonLoading } from "react-loadingg";
 
 const Body = ({ teamsMap }) => {
   const { id } = useParams();
-  if (!id || !teamsMap[id]) return null;
+  if (!id && !teamsMap[id]) return null;
   return <TeamPreview {...teamsMap[id]} />;
 };
 
 export default () => {
   const soccerHook = useSoccer();
-  const { filterTeams } = soccerHook;
+  const { filterTeams, teamsMap } = soccerHook;
 
   return (
     <>
@@ -32,16 +32,16 @@ export default () => {
         }}
       >
         <Route path="/teams">
-          <TeamsSideBar {...soccerHook} />
+          <Loading loading={Object.keys(teamsMap).length === 0}>
+            <TeamsSideBar {...soccerHook} />
+          </Loading>
         </Route>
         <StyledBody>
-          {filterTeams.length > 0 ? (
+          <Loading loading={Object.keys(teamsMap).length === 0}>
             <Route path="/teams/:id">
               <Body {...soccerHook} />
             </Route>
-          ) : (
-            <CommonLoading />
-          )}
+          </Loading>
         </StyledBody>
       </SplitPane>
     </>

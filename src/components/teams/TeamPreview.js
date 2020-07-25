@@ -24,7 +24,6 @@ export default props => {
       <Spacer>
         <div className="frame" style={{ maxHeight: 400, overflowY: "auto" }}>
           {teamPlayers.map(player => {
-            debugger;
             return <Player {...player} />;
           })}
         </div>

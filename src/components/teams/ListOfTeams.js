@@ -17,7 +17,7 @@ export default ({ teams, teamsMap }) => {
             rowCount={teams.length}
             rowHeight={85}
             overscanRowCount={30}
-            scrollToIndex={teamsMap[id]}
+            scrollToIndex={teamsMap[id].index}
             rowRenderer={({ index, isScrolling, key, style }) => {
               const team = teams[index];
               return (
@@ -31,7 +31,7 @@ export default ({ teams, teamsMap }) => {
                 >
                   <TeamListItem
                     key={key}
-                    selected={id === team.TeamId}
+                    selected={id == team.TeamId}
                     {...team}
                   />
                 </div>

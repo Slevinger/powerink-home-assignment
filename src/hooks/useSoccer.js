@@ -1,10 +1,7 @@
-import { useHistory } from "react-router-dom";
-import React, { useState, useCallback, useMemo, useEffect } from "react";
-import styled from "styled-components";
-import SkipPreviousIcon from "@material-ui/icons/SkipPrevious";
+import { useState, useCallback, useMemo, useEffect } from "react";
 import { pick, values } from "lodash";
-import useQueryState from "use-query-state";
 import { getSoccerTeams } from "../api/footballApi";
+import useQueryState from "use-query-state";
 
 const searchableKeys = [
   "Address",

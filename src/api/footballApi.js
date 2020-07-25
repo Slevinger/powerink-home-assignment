@@ -9,7 +9,7 @@ const instance = axios.create({
 export const getSoccerTeams = async () => {
   const { data } = await instance.get(`/scores/json/Teams?key=${key}`);
 
-  return data; //.sort((a, b) => (a.AreaName > b.AreaName ? 1 : -1));
+  return data.filter(({ WikipediaLogoUrl }) => WikipediaLogoUrl); //.sort((a, b) => (a.AreaName > b.AreaName ? 1 : -1));
 };
 
 export default instance;

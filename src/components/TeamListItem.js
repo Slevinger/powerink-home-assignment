@@ -2,15 +2,16 @@ import { Link } from "react-router-dom";
 import React from "react";
 import styled from "styled-components";
 import { useLocation } from "react-router-dom";
+import { StyledNote } from "./StyledComponents";
 
 const Team = styled.div`
   background-color: ${({ selected }) => (selected ? "white" : "black")};
   padding: 5px;
-  border-bottom: 1px gray solid;
+  box-shadow: 10px 10px 10px 10px;
   flex-direction: row;
   display: flex;
   color: white;
-  height: 9%;
+  height: 84px;
   padding: 5px;
   flex: 1;
 `;
@@ -23,8 +24,7 @@ const Logo = styled.div`
   min-width: 50px;
   margin-right: 14px;
   img {
-    width: 100%;
-    height: 100%;
+    height: 50px;
     object-fit: contain;
     overflow: hidden;
   }
@@ -45,42 +45,16 @@ const StyledLink = styled(Link)`
   }
 `;
 
-const StyledParam = styled.div`
-  display: flex;
-  flex-direction: row;
-  color: white;
-  flex: 1;
+const StyledTeamName = styled.div`
+  padding-right: 84px;
+  text-align: center;
+  font-weight: 800;
+  text-decoration: underline;
 `;
-
-const TeamParam = ({ title, value }) => {
-  debugger;
-
-  value = String(value);
-  const nameArr = value.split(" ");
-  const strValue =
-    nameArr.length > 3
-      ? `${value &&
-          value
-            .split(" ")
-            .slice(0, 3)
-            .join(" ")}...`
-      : value;
-  return (
-    <StyledParam>
-      <div>{title}</div>
-      <div
-        style={{
-          flex: 1,
-          justifyContent: "flex-end",
-          display: "flex",
-          textAlign: "right"
-        }}
-      >
-        {strValue}
-      </div>
-    </StyledParam>
-  );
-};
+const StyledTeamParamContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+`;
 
 export default ({
   Name,
@@ -88,7 +62,8 @@ export default ({
   Address,
   WikipediaLogoUrl,
   TeamId,
-  selected
+  selected,
+  onClick
 }) => {
   return (
     <StyledLink
@@ -96,7 +71,7 @@ export default ({
         return `/teams/${TeamId}` + location.search;
       }}
     >
-      <Team selected={selected}>
+      <Team selected={selected} onClick={onClick}>
         <Logo>
           {WikipediaLogoUrl && (
             <img object-fit="contain" src={WikipediaLogoUrl} />
@@ -107,13 +82,23 @@ export default ({
           style={{
             textDecoration: "none",
             flexDirection: "column",
+            justifyContent: "space-between",
             display: "flex",
+            paddingBottom: "10px",
             width: "100%"
           }}
         >
-          <TeamParam title="Name :" value={Name} />
-          <TeamParam title="Founded :" value={Founded} />
-          <TeamParam title="Address :" value={Address} />
+          <StyledTeamName>{Name}</StyledTeamName>
+          <StyledTeamParamContainer>
+            <div>
+              <StyledNote>address:</StyledNote>
+              {Address}
+            </div>
+            <div>
+              <StyledNote>founded:</StyledNote>
+              {Founded}
+            </div>
+          </StyledTeamParamContainer>
         </div>
       </Team>
     </StyledLink>

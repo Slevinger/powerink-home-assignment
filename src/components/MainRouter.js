@@ -6,15 +6,16 @@ import {
   Redirect,
   useParams
 } from "react-router-dom";
-import styled from "styled-components";
 import TeamsSideBar from "./TeamsSideBar";
+import TeamPreview from "./TeamPreview";
+import { StyledBody } from "./StyledComponents";
 import SplitPane from "react-split-pane";
 import useSoccer from "../hooks/useSoccer";
 
-const Body = ({ currentTeams }) => {
+const Body = ({ teamsMap }) => {
   const { id } = useParams();
-  if (!id || !currentTeams[id]) return null;
-  return <div style={{ color: "white" }}>{currentTeams[id].Name}</div>;
+  if (!id || !teamsMap[id]) return null;
+  return <TeamPreview {...teamsMap[id]} />;
 };
 
 export default () => {
@@ -25,7 +26,7 @@ export default () => {
       <SplitPane
         split="vertical"
         minSize={300}
-        defaultSize={300}
+        defaultSize={450}
         resizerStyle={{
           background: "white",
           width: "2px",
@@ -37,11 +38,11 @@ export default () => {
         <Route path="/teams">
           <TeamsSideBar {...soccerHook} />
         </Route>
-        <div>
+        <StyledBody>
           <Route path="/teams/:id">
             <Body {...soccerHook} />
           </Route>
-        </div>
+        </StyledBody>
         <Route path="/">
           <Redirect to="/teams" />
         </Route>

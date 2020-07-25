@@ -1,22 +1,16 @@
-import React from "react";
+import React, { useState, useRef } from "react";
 import styled from "styled-components";
 import SkipPreviousIcon from "@material-ui/icons/SkipPrevious";
 import SkipNextIcon from "@material-ui/icons/SkipNext";
 import { useLocation } from "react-router-dom";
 import "react-virtualized/styles.css";
 import { Column, Table } from "react-virtualized";
-import List from "react-virtualized/dist/commonjs/List";
+import { List, AutoSizer } from "react-virtualized/dist/commonjs";
 import TeamListItem from "./TeamListItem";
 
 const SideBar = styled.div`
   height: 100%;
   width: 100%;
-`;
-
-const TeamList = styled.div`
-  flex: 10;
-  height: 90%;
-  overflow-y: auto;
 `;
 
 const Pager = styled.div`
@@ -38,17 +32,22 @@ const SearchBar = styled.input`
 `;
 
 export default ({
+  teamsMap,
   pageSize,
-  currentPage,
-  stepNext,
-  stepBack,
+  setCurrentIndex,
+  currentIndex,
   filterTeams,
   totalCount,
   search,
   searchTerm
 }) => {
   const { pathname } = useLocation();
+  const listRef = useRef();
   const id = pathname.split[2];
+  const index = id ? teamsMap[id].index : currentIndex;
+  // debugger;
+  const scrollTo = Number(index) + 10;
+  console.log("scroll too", scrollTo);
   return (
     <SideBar>
       <Pager>
@@ -59,19 +58,51 @@ export default ({
             search(e.currentTarget.value);
           }}
         />
-        <SkipPreviousIcon onClick={stepBack} className="clickable" />
-        {`${currentPage * pageSize}-${Math.min(
-          totalCount,
-          currentPage * pageSize + pageSize
-        )}`}
-        <SkipNextIcon onClick={stepNext} className="clickable" />
       </Pager>
 
-      <TeamList>
-        {Object.values(filterTeams).map(team => (
-          <TeamListItem selected={id === team.TeamId} {...team} />
-        ))}
-      </TeamList>
+      {filterTeams.length && (
+        <div>
+          <AutoSizer>
+            {({ width }) => (
+              <List
+                ref={listRef}
+                height={800}
+                rowCount={totalCount}
+                rowHeight={85}
+                overscanRowCount={30}
+                onRowsRendered={async info => {
+                  const { startIndex } = info;
+                  debugger;
+
+                  await setCurrentIndex(startIndex || Number(currentIndex));
+                }}
+                scrollToIndex={index}
+                rowRenderer={({ index, isScrolling, key, style }) => {
+                  console.log(index);
+                  const team = filterTeams[index];
+                  return (
+                    <div
+                      style={{
+                        ...style,
+                        height: "90px",
+                        color: "white",
+                        borderBottom: "solid 1px gray"
+                      }}
+                    >
+                      <TeamListItem
+                        key={key}
+                        selected={id === team.TeamId}
+                        {...team}
+                      />
+                    </div>
+                  );
+                }}
+                width={width}
+              />
+            )}
+          </AutoSizer>
+        </div>
+      )}
     </SideBar>
   );
 };

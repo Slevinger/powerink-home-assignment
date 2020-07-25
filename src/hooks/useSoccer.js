@@ -28,21 +28,46 @@ export default () => {
   const history = useHistory();
   const [pageSize] = useState(10);
   const [filterTeams, setFilterTeams] = useState([]);
-  const [currentPage, setCurrentPage] = useQueryState(0, "page");
+  const [currentIndex, setCurrentIndex] = useQueryState(0, "index");
   const [searchTerm, setSearchTerm] = useQueryState("", "search");
+
+  const teamsMap = useMemo(() => {
+    return teams.reduce(
+      (acc, team, index) => ({ ...acc, [team.TeamId]: { ...team, index } }),
+      {}
+    );
+  }, [teams]);
 
   useEffect(() => {
     (async () => {
+      debugger;
       const res = await getSoccerTeams();
-      await setFilterTeams(res);
+      await initFilterTeams(res);
       await setTeams(res);
     })();
-  }, []);
+  }, [searchTerm]);
+
+  const initFilterTeams = useCallback(
+    teams => {
+      const filter = teams.filter(team =>
+        values(pick(team, searchableKeys)).reduce(
+          (acc, value) =>
+            (value && value.toLowerCase().includes(searchTerm.toLowerCase())) ||
+            acc,
+          false
+        )
+      );
+      debugger;
+
+      setFilterTeams(filter);
+    },
+    [searchTerm]
+  );
 
   const search = useCallback(
     text => {
       // if (text.length % 3 == 0 || text.length < searchTerm.length) {
-      setCurrentPage(0);
+      // setCurrentIndex(0);
       const filter = teams.filter(team =>
         values(pick(team, searchableKeys)).reduce(
           (acc, value) =>
@@ -58,47 +83,14 @@ export default () => {
     [teams]
   );
 
-  const currentTeams = useMemo(() => {
-    return filterTeams
-      .slice(pageSize * currentPage, currentPage * pageSize + pageSize)
-      .reduce((acc, team) => ({ ...acc, [team.TeamId]: team }), {});
-  }, [filterTeams, currentPage, searchTerm]);
-
-  const changePage = useCallback(
-    iteration => {
-      const nextIndex = currentPage * pageSize + iteration * pageSize;
-      if (nextIndex <= filterTeams.length && nextIndex >= 0) {
-        setCurrentPage(Number(currentPage) + iteration);
-
-        // setCurrentPage(currentPage + iteration);
-      }
-    },
-    [currentPage, teams.length, history]
-  );
-
-  useEffect(() => {
-    const { pathname } = history.location;
-    const id = pathname.split("/")[2];
-    const pageToBe = findTeamsPage(filterTeams, pageSize, id);
-    if (id && currentPage != pageToBe) {
-      setCurrentPage(pageToBe);
-    }
-  }, [filterTeams.length]);
-
   return {
-    currentTeams,
     filterTeams,
+    teamsMap,
     searchTerm,
-    currentPage,
+    currentIndex,
+    setCurrentIndex,
     pageSize,
     totalCount: filterTeams.length,
-    search,
-    stepNext: () => {
-      debugger;
-      changePage(1);
-    },
-    stepBack: () => {
-      changePage(-1);
-    }
+    search
   };
 };

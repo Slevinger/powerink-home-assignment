@@ -1,16 +1,11 @@
-import React, { useState, useEffect } from "react";
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Redirect,
-  useParams
-} from "react-router-dom";
+import React from "react";
+import { Route, useParams, Redirect } from "react-router-dom";
 import TeamsSideBar from "./TeamsSideBar";
 import TeamPreview from "./TeamPreview";
 import { StyledBody } from "./StyledComponents";
 import SplitPane from "react-split-pane";
 import useSoccer from "../hooks/useSoccer";
+import { CommonLoading } from "react-loadingg";
 
 const Body = ({ teamsMap }) => {
   const { id } = useParams();
@@ -20,6 +15,7 @@ const Body = ({ teamsMap }) => {
 
 export default () => {
   const soccerHook = useSoccer();
+  const { filterTeams } = soccerHook;
 
   return (
     <>
@@ -39,13 +35,14 @@ export default () => {
           <TeamsSideBar {...soccerHook} />
         </Route>
         <StyledBody>
-          <Route path="/teams/:id">
-            <Body {...soccerHook} />
-          </Route>
+          {filterTeams.length > 0 ? (
+            <Route path="/teams/:id">
+              <Body {...soccerHook} />
+            </Route>
+          ) : (
+            <CommonLoading />
+          )}
         </StyledBody>
-        <Route path="/">
-          <Redirect to="/teams" />
-        </Route>
       </SplitPane>
     </>
   );

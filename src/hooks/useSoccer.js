@@ -5,11 +5,6 @@ import SkipPreviousIcon from "@material-ui/icons/SkipPrevious";
 import { pick, values } from "lodash";
 import useQueryState from "use-query-state";
 import { getSoccerTeams } from "../api/footballApi";
-window.values = values;
-window.pick = pick;
-
-const findTeamsPage = (teams, pageSize, id) =>
-  Math.floor(teams.findIndex(({ TeamId }) => TeamId == id) / pageSize);
 
 const searchableKeys = [
   "Address",
@@ -23,15 +18,24 @@ const searchableKeys = [
   "Nickname2",
   "VenueName"
 ];
+
+const searchInTeams = (teams, searchTerm) => {
+  return teams.filter(team =>
+    values(pick(team, searchableKeys)).reduce(
+      (acc, value) =>
+        (value && value.toLowerCase().includes(searchTerm.toLowerCase())) ||
+        acc,
+      false
+    )
+  );
+};
 export default () => {
   const [teams, setTeams] = useState([]);
-  const history = useHistory();
-  const [pageSize] = useState(10);
   const [filterTeams, setFilterTeams] = useState([]);
-  const [currentIndex, setCurrentIndex] = useQueryState(0, "index");
   const [searchTerm, setSearchTerm] = useQueryState("", "search");
 
   const teamsMap = useMemo(() => {
+    debugger;
     return teams.reduce(
       (acc, team, index) => ({ ...acc, [team.TeamId]: { ...team, index } }),
       {}
@@ -40,7 +44,6 @@ export default () => {
 
   useEffect(() => {
     (async () => {
-      debugger;
       const res = await getSoccerTeams();
       await initFilterTeams(res);
       await setTeams(res);
@@ -49,35 +52,14 @@ export default () => {
 
   const initFilterTeams = useCallback(
     teams => {
-      const filter = teams.filter(team =>
-        values(pick(team, searchableKeys)).reduce(
-          (acc, value) =>
-            (value && value.toLowerCase().includes(searchTerm.toLowerCase())) ||
-            acc,
-          false
-        )
-      );
-      debugger;
-
-      setFilterTeams(filter);
+      setFilterTeams(searchInTeams(teams, searchTerm));
     },
     [searchTerm]
   );
 
   const search = useCallback(
     text => {
-      // if (text.length % 3 == 0 || text.length < searchTerm.length) {
-      // setCurrentIndex(0);
-      const filter = teams.filter(team =>
-        values(pick(team, searchableKeys)).reduce(
-          (acc, value) =>
-            (value && value.toLowerCase().includes(text.toLowerCase())) || acc,
-          false
-        )
-      );
-
-      setFilterTeams(filter);
-      // }
+      setFilterTeams(searchInTeams(teams, text));
       setSearchTerm(text);
     },
     [teams]
@@ -87,9 +69,6 @@ export default () => {
     filterTeams,
     teamsMap,
     searchTerm,
-    currentIndex,
-    setCurrentIndex,
-    pageSize,
     totalCount: filterTeams.length,
     search
   };

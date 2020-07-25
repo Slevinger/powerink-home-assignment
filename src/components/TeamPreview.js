@@ -1,49 +1,67 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import { StyledNote, Spacer } from "./StyledComponents";
+import { Spacer } from "./StyledComponents";
+import { getTeamPlayers } from "../api/footballApi";
+import TeamDetails from "./teams/TeamDetails";
 
-const PreviewPage = styled.div`
+const Player = ({ FirstName, LastName, Jersey, PhotoUrl }) => (
+  <div className="player">
+    <img src={PhotoUrl}></img>
+    <text>{`# ${Jersey} - ${FirstName} ${LastName} `}</text>
+  </div>
+);
+
+const TeamProfilePage = styled.div`
   display: flex;
-  flex-direction: row;
-  padding: 20px;
+  flex-direction: column;
   color: white;
-  img {
-    height: 200px;
-    object-fit: contain;
-    overflow: hidden;
-    margin: 10px;
+  .frame {
+    max-height: 400px;
+    overflow-y: auto;
+  }
+
+  .frame::-webkit-scrollbar {
+    -webkit-appearance: none;
+  }
+
+  .frame::-webkit-scrollbar:vertical {
+    width: 11px;
+  }
+
+  .frame::-webkit-scrollbar-thumb {
+    border-radius: 8px;
+    border: 2px solid white; /* should match background, can't be transparent */
+    background-color: rgba(0, 0, 0, 0.5);
+  }
+  .player {
+    display: flex;
+    font-size: 1.5rem;
+    text {
+      align-self: center;
+      margin-left: 20px;
+    }
   }
 `;
 
-const Header = styled.div`
-  font-size: 2rem;
-  flex: 1;
-`;
-
-export default ({ Name, Website, Address, Founded, WikipediaLogoUrl }) => {
+export default props => {
+  const { TeamId } = props;
+  const [teamPlayers, setTeamPlayers] = useState([]);
+  useEffect(() => {
+    (async () => {
+      setTeamPlayers(await getTeamPlayers(TeamId));
+    })();
+  }, [TeamId]);
   return (
-    <PreviewPage id="page-preview">
+    <TeamProfilePage>
+      <TeamDetails {...props} />
       <Spacer>
-        <img src={WikipediaLogoUrl} />
-      </Spacer>
-      <Spacer>
-        <div
-          style={{ display: "flex", flexDirection: "column", height: "90%" }}
-        >
-          <Header>{Name}</Header>
-          <div>
-            <StyledNote>Address : </StyledNote>
-            {Address}
-          </div>
-          <div>
-            <StyledNote>Founded at : </StyledNote>
-            {Founded}
-          </div>
-          <a href={Website} target="_blank">
-            {Website}
-          </a>
+        <div className="frame" style={{ maxHeight: 400, overflowY: "auto" }}>
+          {teamPlayers.map(player => {
+            debugger;
+            return <Player {...player} />;
+          })}
         </div>
       </Spacer>
-    </PreviewPage>
+    </TeamProfilePage>
   );
 };

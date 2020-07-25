@@ -1,14 +1,17 @@
 import React from "react";
 import MainRouter from "./components/MainRouter";
 import { createBrowserHistory } from "history";
+import { BrowserRouter as Router, Route, Redirect } from "react-router-dom";
 import "./App.css";
 
-import { BrowserRouter as Router } from "react-router-dom";
 const history = createBrowserHistory();
 
 function App() {
   return (
     <Router history={history}>
+      <Route exact path="/">
+        <Redirect to="/teams" />
+      </Route>
       <MainRouter />
     </Router>
   );

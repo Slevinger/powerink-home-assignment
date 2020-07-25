@@ -9,7 +9,7 @@ const history = createBrowserHistory();
 function App() {
   return (
     <Router history={history}>
-      <Route exact path="/powerlink-home-assignment">
+      <Route exact path="/">
         <Redirect to="/teams" />
       </Route>
       <MainRouter />

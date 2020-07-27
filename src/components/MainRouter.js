@@ -15,35 +15,33 @@ const Body = ({ teamsMap }) => {
 
 export default () => {
   const soccerHook = useSoccer();
-  const { filterTeams, teamsMap } = soccerHook;
+  const { teamsMap } = soccerHook;
 
   return (
-    <>
-      <SplitPane
-        split="vertical"
-        minSize={300}
-        defaultSize={450}
-        resizerStyle={{
-          background: "white",
-          width: "2px",
-          cursor: "col-resize",
-          margin: "0 5px",
-          height: "100%"
-        }}
-      >
-        <Route path="/teams">
-          <Loading loading={Object.keys(teamsMap).length === 0}>
-            <TeamsSideBar {...soccerHook} />
-          </Loading>
-        </Route>
-        <StyledBody>
-          <Loading loading={Object.keys(teamsMap).length === 0}>
-            <Route path="/teams/:id">
-              <Body {...soccerHook} />
-            </Route>
-          </Loading>
-        </StyledBody>
-      </SplitPane>
-    </>
+    <SplitPane
+      split="vertical"
+      minSize={300}
+      defaultSize={450}
+      resizerStyle={{
+        background: "white",
+        width: "2px",
+        cursor: "col-resize",
+        margin: "0 5px",
+        height: "100%"
+      }}
+    >
+      <Route path="/teams">
+        <Loading loading={Object.keys(teamsMap).length === 0}>
+          <TeamsSideBar {...soccerHook} />
+        </Loading>
+      </Route>
+      <StyledBody>
+        <Loading loading={Object.keys(teamsMap).length === 0}>
+          <Route path="/teams/:id">
+            <Body {...soccerHook} />
+          </Route>
+        </Loading>
+      </StyledBody>
+    </SplitPane>
   );
 };

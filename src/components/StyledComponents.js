@@ -13,7 +13,7 @@ export const StyledBody = styled.div`
   height: 100%;
   justify-content: center;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
 `;
 
 export const SideBar = styled.div`
@@ -63,7 +63,7 @@ export const StyledLink = styled(Link)`
     opacity: 1;
     left: 130%;
     transition-property: left, top, opacity;
-    transition-duration: 0.3s, 0.3s, 0.05s;
+    transition-duration: 0.2s, 0.2s, 0.05s;
     transition-timing-function: ease;
   }
 `;

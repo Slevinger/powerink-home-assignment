@@ -35,13 +35,13 @@ export default () => {
           <TeamsSideBar {...soccerHook} />
         </Loading>
       </Route>
-      <StyledBody>
-        <Loading loading={Object.keys(teamsMap).length === 0}>
-          <Route path="/teams/:id">
+      <Route path="/teams/:id">
+        <StyledBody>
+          <Loading loading={Object.keys(teamsMap).length === 0}>
             <Body {...soccerHook} />
-          </Route>
-        </Loading>
-      </StyledBody>
+          </Loading>
+        </StyledBody>
+      </Route>
     </SplitPane>
   );
 };

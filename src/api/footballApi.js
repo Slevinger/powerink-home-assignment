@@ -9,7 +9,8 @@ const instance = axios.create({
 export const getSoccerTeams = async () => {
   const { data } = await instance.get(`/scores/json/Teams?key=${key}`);
 
-  return data.filter(({ WikipediaLogoUrl }) => WikipediaLogoUrl);
+  const teamsWithLogo = data.filter(({ WikipediaLogoUrl }) => WikipediaLogoUrl);
+  return teamsWithLogo.sort((teamA, teamB) => teamA.Founded - teamB.Founded);
 };
 
 export const getTeamPlayers = async teamId => {

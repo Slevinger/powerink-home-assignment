@@ -13,14 +13,16 @@ const searchableKeys = [
   "Name",
   "Nickname1",
   "Nickname2",
-  "VenueName"
+  "VenueName",
+  "Founded"
 ];
 
 const searchInTeams = (teams, searchTerm) => {
   return teams.filter(team =>
     values(pick(team, searchableKeys)).reduce(
       (acc, value) =>
-        (value && value.toLowerCase().includes(searchTerm.toLowerCase())) ||
+        (value &&
+          ("" + value).toLowerCase().includes(searchTerm.toLowerCase())) ||
         acc,
       false
     )
@@ -32,7 +34,6 @@ export default () => {
   const [searchTerm, setSearchTerm] = useQueryState("", "search");
 
   const teamsMap = useMemo(() => {
-    debugger;
     return teams.reduce(
       (acc, team, index) => ({ ...acc, [team.TeamId]: { ...team, index } }),
       {}
@@ -40,19 +41,18 @@ export default () => {
   }, [teams]);
 
   useEffect(() => {
-    (async () => {
-      const res = await getSoccerTeams();
-      await setTeams(res);
-      await initFilterTeams(res);
-    })();
-  }, [searchTerm]);
+    if (Object.keys(teamsMap).length === 0) {
+      (async () => {
+        const res = await getSoccerTeams();
+        await setTeams(res);
+      })();
+    }
+    initFilterTeams();
+  }, [searchTerm, teamsMap]);
 
-  const initFilterTeams = useCallback(
-    teams => {
-      setFilterTeams(searchInTeams(teams, searchTerm));
-    },
-    [searchTerm]
-  );
+  const initFilterTeams = useCallback(() => {
+    setFilterTeams(searchInTeams(teams, searchTerm));
+  }, [searchTerm, teams]);
 
   const search = useCallback(
     text => {

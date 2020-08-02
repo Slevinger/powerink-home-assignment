@@ -25,7 +25,6 @@ export default ({ teams, teamsMap }) => {
                 <div
                   style={{
                     ...style,
-                    height: "90px",
                     color: "white",
                     borderBottom: "solid 1px gray"
                   }}
